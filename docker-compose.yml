@@ -14,9 +14,9 @@ services:
       - "8081:8081"
     env_file:
       - .env
-#    labels:
-#      - "traefik.enable=true"
-#      - "traefik.http.routers.eldes-alice.rule=Host(`eldes-alice.housekpr.ru`)"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sim-sim.rule=Host(`sim-sim.housekpr.ru`)"
     networks:
       - housekpr-network
 
