@@ -4,6 +4,8 @@ import com.eldes.alice.domain.CommandParser
 import com.eldes.alice.model.AliceRequest
 import com.eldes.alice.model.AliceResponse
 import com.eldes.alice.model.AliceResponseData
+import com.eldes.alice.model.OAuthErrorResponse
+import com.eldes.alice.model.OAuthTokenResponse
 import com.eldes.alice.service.AliceSkillService
 import com.eldes.alice.service.EldesApiClient
 import com.eldes.alice.service.OAuthService
@@ -156,27 +158,21 @@ fun Application.module() {
             val grantType = params["grant_type"].orEmpty()
 
             if (!smartHomeConfig.isClientAllowed(clientId) || !smartHomeConfig.isSecretAllowed(clientSecret)) {
-                call.respond(HttpStatusCode.Unauthorized, mapOf("error" to "invalid_client"))
+                call.respond(HttpStatusCode.Unauthorized, OAuthErrorResponse("invalid_client"))
                 return@post
             }
             if (grantType != "authorization_code") {
-                call.respond(HttpStatusCode.BadRequest, mapOf("error" to "unsupported_grant_type"))
+                call.respond(HttpStatusCode.BadRequest, OAuthErrorResponse("unsupported_grant_type"))
                 return@post
             }
 
             val auth = oauthService.exchangeCode(code)
             if (auth == null) {
-                call.respond(HttpStatusCode.BadRequest, mapOf("error" to "invalid_grant"))
+                call.respond(HttpStatusCode.BadRequest, OAuthErrorResponse("invalid_grant"))
                 return@post
             }
 
-            call.respond(
-                mapOf(
-                    "access_token" to auth.token,
-                    "token_type" to "Bearer",
-                    "expires_in" to 31_536_000,
-                )
-            )
+            call.respond(OAuthTokenResponse(accessToken = auth.token))
         }
 
         head("/v1.0/") {
