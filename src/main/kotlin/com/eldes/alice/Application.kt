@@ -98,6 +98,12 @@ fun Application.module() {
     val smartHomeService = SmartHomeService(eldesApiClient)
 
     routing {
+        head("/") {
+            call.respond(HttpStatusCode.OK)
+        }
+        get("/") {
+            call.respondText("ok")
+        }
         get("/ping") {
             call.respondText("pong")
         }
