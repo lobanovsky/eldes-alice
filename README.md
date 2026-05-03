@@ -117,8 +117,10 @@ smartHome:
 Backend:
 
 ```text
-https://sim-sim.housekpr.ru/v1.0
+https://sim-sim.housekpr.ru
 ```
+
+Яндекс сам добавляет Smart Home paths вроде `/v1.0/user/devices`, поэтому в поле Backend нужно указывать базовый URL без `/v1.0`.
 
 OAuth URL авторизации:
 
