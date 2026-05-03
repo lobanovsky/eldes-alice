@@ -184,6 +184,9 @@ fun Application.module() {
         head("/v1.0/") {
             call.respond(HttpStatusCode.OK)
         }
+        get("/v1.0/") {
+            call.respond(HttpStatusCode.OK)
+        }
         get("/v1.0/user/devices") {
             val token = call.bearerToken()
             if (token == null) {
