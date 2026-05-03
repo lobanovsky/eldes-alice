@@ -1,0 +1,14 @@
+ktor:
+  application:
+    modules:
+      - com.eldes.alice.ApplicationKt.module
+  deployment:
+    port: "$PORT:8081"
+
+eldesApi:
+  baseUrl: "$ELDES_API_BASE_URL:http://localhost:8080"
+  email: "$ELDES_API_EMAIL:email@eldes.com"
+  password: "$ELDES_API_PASSWORD:password"
+  timeoutMs: "$ELDES_API_TIMEOUT_MS:4000"
+  connectTimeoutMs: "$ELDES_API_CONNECT_TIMEOUT_MS:1500"
+  socketTimeoutMs: "$ELDES_API_SOCKET_TIMEOUT_MS:4000"
