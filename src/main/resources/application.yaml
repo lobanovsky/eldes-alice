@@ -12,3 +12,8 @@ eldesApi:
   timeoutMs: "$ELDES_API_TIMEOUT_MS:4000"
   connectTimeoutMs: "$ELDES_API_CONNECT_TIMEOUT_MS:1500"
   socketTimeoutMs: "$ELDES_API_SOCKET_TIMEOUT_MS:4000"
+
+smartHome:
+  oauthClientId: "$SMART_HOME_OAUTH_CLIENT_ID:"
+  oauthClientSecret: "$SMART_HOME_OAUTH_CLIENT_SECRET:"
+  authCodeTtlSeconds: "$SMART_HOME_AUTH_CODE_TTL_SECONDS:300"

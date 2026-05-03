@@ -47,10 +47,38 @@ class EldesApiClient(
         }.getOrThrow()
     }
 
+    suspend fun login(email: String, password: String): AuthResponse =
+        httpClient.post("$apiBaseUrl/api/auth/login") {
+            setBody(LoginRequest(email, password))
+        }.body()
+
+    suspend fun getDevices(bearerToken: String): DevicesResponse =
+        httpClient.get("$apiBaseUrl/api/private/devices") {
+            bearerAuth(bearerToken)
+        }.body()
+
+    suspend fun open(target: GateTarget, bearerToken: String) {
+        val devices = getDevices(bearerToken)
+        val device = devices.zones
+            .flatMap { it.devices }
+            .firstOrNull { it.id == target.deviceId }
+            ?: error("Устройство ${target.title} не найдено в доступных устройствах пользователя")
+
+        httpClient.post("$apiBaseUrl/api/private/devices/${target.deviceId}/open") {
+            bearerAuth(bearerToken)
+            setBody(
+                OpenGateRequest(
+                    key = device.deviceKey,
+                    userid = devices.userId,
+                )
+            )
+        }
+    }
+
     @OptIn(ExperimentalTime::class)
     private suspend fun openWithCurrentToken(target: GateTarget) {
         val authResponse = getAuth()
-        val devices = getDevices(authResponse.token)
+        val devices = getCachedDevices(authResponse.token)
         val device = devices.zones
             .flatMap { it.devices }
             .firstOrNull { it.id == target.deviceId }
@@ -74,7 +102,7 @@ class EldesApiClient(
     }
 
     @OptIn(ExperimentalTime::class)
-    private suspend fun getDevices(token: String): DevicesResponse {
+    private suspend fun getCachedDevices(token: String): DevicesResponse {
         val now = Clock.System.now()
         mutex.withLock {
             val cached = devicesCache

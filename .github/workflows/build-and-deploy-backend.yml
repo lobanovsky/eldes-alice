@@ -62,6 +62,8 @@ jobs:
           echo "ELDES_API_BASE_URL=${{ secrets.ELDES_API_BASE_URL }}" >> .env
           echo "ELDES_API_EMAIL=${{ secrets.ELDES_API_EMAIL }}" >> .env
           echo "ELDES_API_PASSWORD=${{ secrets.ELDES_API_PASSWORD }}" >> .env
+          echo "SMART_HOME_OAUTH_CLIENT_ID=${{ secrets.SMART_HOME_OAUTH_CLIENT_ID }}" >> .env
+          echo "SMART_HOME_OAUTH_CLIENT_SECRET=${{ secrets.SMART_HOME_OAUTH_CLIENT_SECRET }}" >> .env
 
       - name: copy files to host
         uses: appleboy/scp-action@v0.1.7
