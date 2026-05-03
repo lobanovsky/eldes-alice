@@ -40,7 +40,7 @@ data class SmartHomeCapabilityDescription(
 
 @Serializable
 data class SmartHomeOnOffParameters(
-    val split: Boolean = true,
+    val split: Boolean = false,
 )
 
 @Serializable

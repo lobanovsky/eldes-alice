@@ -84,8 +84,11 @@ class SmartHomeService(
         val onOff = device.capabilities.firstOrNull { it.type == "devices.capabilities.on_off" }
             ?: return deviceError(device.id, "INVALID_ACTION", "Поддерживается только действие открытия")
 
-        if (onOff.state.instance != "on" || onOff.state.value != true) {
+        if (onOff.state.instance != "on") {
             return capabilityResult(device.id, "ERROR", "INVALID_ACTION", "Устройство поддерживает только открытие")
+        }
+        if (onOff.state.value != true) {
+            return capabilityResult(device.id, "DONE")
         }
 
         return runCatching {
