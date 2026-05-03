@@ -184,6 +184,9 @@ fun Application.module() {
         head("/v1.0/") {
             call.respond(HttpStatusCode.OK)
         }
+        head("/v1.0") {
+            call.respond(HttpStatusCode.OK)
+        }
         get("/v1.0/") {
             call.respond(HttpStatusCode.OK)
         }
