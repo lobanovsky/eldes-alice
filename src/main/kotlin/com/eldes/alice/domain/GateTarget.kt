@@ -18,10 +18,10 @@ data class GateTarget(
 ) {
     val title: String = "${zone.title} - ${direction.title}"
     val actionTitle: String = when (key) {
-        "yard_in" -> "Въезд во двор"
-        "yard_out" -> "Выезд из двора"
-        "parking_in" -> "Въезд в паркинг"
-        "parking_out" -> "Выезд из паркинга"
+        "yard_in" -> "Заехать во двор"
+        "yard_out" -> "Выехать из двора"
+        "parking_in" -> "Заехать в паркинг"
+        "parking_out" -> "Выехать из паркинга"
         else -> title
     }
 

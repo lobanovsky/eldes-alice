@@ -1,6 +1,7 @@
 package com.eldes.alice.service
 
 import com.eldes.alice.domain.GateTarget
+import com.eldes.alice.domain.GateZone
 import com.eldes.alice.model.SmartHomeActionDevice
 import com.eldes.alice.model.SmartHomeActionRequest
 import com.eldes.alice.model.SmartHomeActionResponse
@@ -155,10 +156,10 @@ class SmartHomeService(
 
     private companion object {
         val smartHomeDevices = listOf(
-            SmartHomeGateDevice("yard_in", "Шлагбаум", "Въезд во двор", "Двор", GateTarget.byKey("yard_in")!!),
-            SmartHomeGateDevice("yard_out", "Шлагбаум выезд", "Выезд из двора", "Двор", GateTarget.byKey("yard_out")!!),
-            SmartHomeGateDevice("parking_in", "Ворота паркинга въезд", "Въезд в паркинг", "Паркинг", GateTarget.byKey("parking_in")!!),
-            SmartHomeGateDevice("parking_out", "Ворота паркинга выезд", "Выезд из паркинга", "Паркинг", GateTarget.byKey("parking_out")!!),
+            SmartHomeGateDevice("yard_in", "Шлагбаум въезд", "Заехать во двор", GateZone.YARD.title, GateTarget.byKey("yard_in")!!),
+            SmartHomeGateDevice("yard_out", "Шлагбаум выезд", "Выехать из двора", GateZone.YARD.title, GateTarget.byKey("yard_out")!!),
+            SmartHomeGateDevice("parking_in", "Ворота въезд", "Заехать в паркинг", GateZone.PARKING.title, GateTarget.byKey("parking_in")!!),
+            SmartHomeGateDevice("parking_out", "Ворота выезд", "Выехать из паркинга", GateZone.PARKING.title, GateTarget.byKey("parking_out")!!),
         )
     }
 }
