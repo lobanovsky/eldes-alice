@@ -34,7 +34,7 @@ data class SmartHomeDevice(
 @Serializable
 data class SmartHomeCapabilityDescription(
     val type: String = "devices.capabilities.on_off",
-    val retrievable: Boolean = false,
+    val retrievable: Boolean = true,
     val parameters: SmartHomeOnOffParameters = SmartHomeOnOffParameters(),
 )
 
