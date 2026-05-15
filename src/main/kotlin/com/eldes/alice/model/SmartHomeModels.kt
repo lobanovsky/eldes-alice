@@ -27,8 +27,15 @@ data class SmartHomeDevice(
     val type: String = "devices.types.openable",
     val capabilities: List<SmartHomeCapabilityDescription>,
     val properties: List<JsonObject> = emptyList(),
+    @SerialName("status_info")
+    val statusInfo: SmartHomeStatusInfo = SmartHomeStatusInfo(),
     @SerialName("custom_data")
     val customData: JsonObject? = null,
+)
+
+@Serializable
+data class SmartHomeStatusInfo(
+    val reportable: Boolean = true,
 )
 
 @Serializable
