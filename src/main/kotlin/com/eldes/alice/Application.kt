@@ -204,7 +204,7 @@ fun Application.module() {
                 call.respond(HttpStatusCode.Unauthorized)
                 return@post
             }
-            call.respond(smartHomeService.query(call.requestId(), call.receive()))
+            call.respond(smartHomeService.query(call.requestId(), token, call.receive()))
         }
         post("/v1.0/user/devices/action") {
             val token = call.bearerToken()

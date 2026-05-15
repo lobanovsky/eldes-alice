@@ -100,7 +100,11 @@ data class SmartHomeQueryPayload(
 @Serializable
 data class SmartHomeQueryDevice(
     val id: String,
-    val capabilities: List<SmartHomeCapabilityCurrentState>,
+    val capabilities: List<SmartHomeCapabilityCurrentState> = emptyList(),
+    @SerialName("error_code")
+    val errorCode: String? = null,
+    @SerialName("error_message")
+    val errorMessage: String? = null,
 )
 
 @Serializable

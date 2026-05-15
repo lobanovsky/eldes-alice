@@ -44,22 +44,31 @@ class SmartHomeService(
         )
     }
 
-    fun query(requestId: String, request: SmartHomeDevicesRequest): SmartHomeQueryResponse =
-        SmartHomeQueryResponse(
+    suspend fun query(requestId: String, bearerToken: String, request: SmartHomeDevicesRequest): SmartHomeQueryResponse {
+        val onlineDeviceIds = runCatching { eldesApiClient.getDevices(bearerToken) }
+            .getOrNull()
+            ?.zones?.flatMap { it.devices }
+            ?.filter { it.isOnline }
+            ?.map { it.id }
+            ?.toSet()
+
+        return SmartHomeQueryResponse(
             requestId = requestId,
             payload = SmartHomeQueryPayload(
                 devices = request.devices.map { device ->
-                    SmartHomeQueryDevice(
-                        id = device.id,
-                        capabilities = listOf(
-                            SmartHomeCapabilityCurrentState(
-                                state = SmartHomeCurrentState(value = false),
-                            )
-                        ),
-                    )
+                    val backendDeviceId = smartHomeDevices.firstOrNull { it.id == device.id }?.target?.deviceId
+                    if (onlineDeviceIds != null && backendDeviceId != null && backendDeviceId !in onlineDeviceIds) {
+                        SmartHomeQueryDevice(id = device.id, errorCode = "DEVICE_UNREACHABLE")
+                    } else {
+                        SmartHomeQueryDevice(
+                            id = device.id,
+                            capabilities = listOf(SmartHomeCapabilityCurrentState(state = SmartHomeCurrentState(value = false))),
+                        )
+                    }
                 },
             ),
         )
+    }
 
     suspend fun action(
         requestId: String,

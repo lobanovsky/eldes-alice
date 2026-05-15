@@ -42,6 +42,7 @@ data class Device(
     val label: String,
     val phoneNumber: String = "",
     val deviceKey: String,
+    val isOnline: Boolean = true,
 )
 
 @Serializable
